@@ -1,57 +1,41 @@
-// import { FormGroup, FormBuilder, FormGroup } from '@angular/forms';
-import { Component, OnInit , Input} from '@angular/core';
-// import {MomentDateAdapter} from '@angular/material-moment-adapter';
-// import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatSort, MatTableDataSource} from '@angular/material';
 
-// // Depending on whether rollup is used, moment needs to be imported differently.
-// // Since Moment.js doesn't have a default export, we normally need to import using the `* as`
-// // syntax. However, rollup creates a synthetic default module and we thus need to import it using
-// // the `default as` syntax.
-// import * as _moment from 'moment';
-// // tslint:disable-next-line:no-duplicate-imports
-// import { default as _rollupMoment} from 'moment';
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
 
-// const moment = _rollupMoment || _moment;
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
+  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
+  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
+  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
+  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
+  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
+  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
+  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
+  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+];
 
-// // See the Moment.js docs for the meaning of these formats:
-// // https://momentjs.com/docs/#/displaying/format/
-// export const MY_FORMATS = {
-//   parse: {
-//     dateInput: 'DD/MM/YYYY',
-//   },
-//   display: {
-//     dateInput: 'DD/MM/YYYY',
-//     monthYearLabel: 'MM YYYY',
-//     dateA11yLabel: 'DD/MM/YYYY',
-//     monthYearA11yLabel: 'MM YYYY',
-//   },
-// };
-
+/**
+ * @title Table with sorting
+ */
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  // providers: [
-  //   // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-  //   // application's root module. We provide it at the component level here, due to limitations of
-  //   // our example generation script.
-  //   {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-
-  //   {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-  // ],
+  styleUrls: ['app.component.css'],
+  templateUrl: 'app.component.html',
 })
-
 export class AppComponent implements OnInit {
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  title = 'Login';
+  @ViewChild(MatSort) sort: MatSort;
 
-  // dateForm: FormGroup;
-  // constructor(private fb: FormBuilder) {}
   ngOnInit() {
-  //   this.dateForm = this.fb.group({
-  //     date: ['']
-  //   });
-   }
-
-
+    this.dataSource.sort = this.sort;
+  }
 }
